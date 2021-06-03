@@ -1,0 +1,35 @@
+/* Page layout */
+
+.page-header {
+  padding-top: 40px;
+  margin: 0;
+}
+
+.navigation-container {
+  max-width: none;
+}
+
+/* Progress bar general */
+
+.otree-progress {
+  padding-bottom: 40px;
+  max-width: none;
+}
+
+/* Complex progress bar */
+
+.progress-container > .row > div {
+  padding: 0;
+}
+
+.progress-label {
+  text-align: center;
+}
+
+.col .progress {
+  border-radius: 0;
+}
+
+.progress-container > .row > div:not(:last-child) > .progress-complete {
+  border-right: 1px solid;
+}
