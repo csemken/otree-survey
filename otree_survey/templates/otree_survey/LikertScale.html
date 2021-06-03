@@ -1,0 +1,60 @@
+{% extends "otree_survey/SurveyPage.html" %}
+{% load otree otree_internal static otree_survey %}
+
+{% block survey_content %}
+    {% block intro %}{% endblock %}
+    <div class="container-fluid survey-table grid-striped">
+        <div class="row grid-th d-none d-md-flex">
+            {# TODO make col a variable #}
+            <div class="col"></div>
+            {% for field in form %}
+                {% if forloop.first %}
+                    {% for radio in field %}
+                        <div class="col-1">
+                            <span class="survey-table-choice small">{{ radio.choice_label }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% for field in form %}
+            <div class="row">
+                <div class="col-12 col-md">
+                    {{ field.label }}
+                </div>
+                {% for radio in field %}
+                    <div class="col-12 col-sm col-md-1">
+                        <label for="{{ radio.id_for_label }}">
+                            {{ radio.tag }}
+                            <span class="d-md-none survey-table-choice small">{{ radio.choice_label }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .survey-table .col:not(:first-child),
+        .survey-table .col-1:not(:first-child) {
+            text-align: center;
+        }
+        .survey-table label {
+            width: 100%;
+            height: 100%;
+            font-weight: normal;
+            padding-left: 1.25rem;
+        }
+        @media only screen and (min-width : 768px) {
+            .survey-table label input {
+                position: relative;
+                margin: 0;
+            }
+        }
+        .survey-table-choice {
+            line-height: 0;
+        }
+    </style>
+{% endblock %}
