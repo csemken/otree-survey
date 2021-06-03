@@ -1,9 +1,11 @@
 {% load otree static %}
 <div id="main">
     {% if widget.attrs.show_value %}
-        {% if widget.attrs.show_block == 'left' %}
-            <div class="sliderinfoblocks sliderblockleft" id="info_{{ widget.attrs.id }}">{# widget.attrs.slider_start_value #}</div>
-        {% endif %}
+        <div class="sliderinfoblocks {% if widget.attrs.show_block == 'left' %}sliderblockleft{% else %}sliderblockright order-last{% endif %}"
+             id="info_{{ widget.attrs.id }}"
+        >
+            {# widget.attrs.slider_start_value #}
+        </div>
     {% endif %}
     <div class="sliderouter">
         <div id="{{widget.attrs.id}}" class="slider"></div>
@@ -21,11 +23,6 @@
 			</div>
 		{% endif %}
     </div>
-    {% if widget.attrs.show_value %}
-        {% if widget.attrs.show_block == 'right' %}
-            <div class="sliderinfoblocks sliderblockright">Green</div>
-        {% endif %}
-    {% endif %}
 </div>
 
 <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -61,7 +58,7 @@
 
                 // update values
                 var handleIndex = $(ui.handle).data('uiSliderHandleIndex');
-                var label = handleIndex == 0 ? '.sliderblockleft#info_{{ widget.attrs.id }}' : '#max';
+                var label = handleIndex == 0 ? '.sliderinfoblocks#info_{{ widget.attrs.id }}' : '#max';
                 $(label).html( ui.value);
                 $('input#{{widget.attrs.id}}').val(ui.value);
             }

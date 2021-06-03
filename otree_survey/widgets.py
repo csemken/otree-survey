@@ -68,7 +68,7 @@ class AdvancedSliderWidget(widgets.NumberInput):
         a_["ndigits"] = self.ndigits
 
         a_.setdefault("tick_interval", a_["step"])
-        a_.setdefault("secondary_ticks", True)
+        a_.setdefault("secondary_ticks", self.show_ticks)
         a_.setdefault("show_ticks", True)
         self.default_med_value = round((a_["min"] + a_["max"]) / 2, self.ndigits)
         if self.ndigits == 0:
@@ -86,12 +86,3 @@ class AdvancedSliderWidget(widgets.NumberInput):
         a_["show_block"] = self.show_block
         a_["end_labels"] = self.end_labels
         return context
-
-        # TODO: when Chris includes form.media to the template, stop adding jquery-ui to each field which is absu
-        # class Media:
-        #     css = {
-        #         'all': ('jquery-ui/jquery-ui.min.css',
-        #                 'css/slider.css',)
-        #     }
-        #     js = ('jquery-ui/jquery-ui.min.js',
-        #           'js/slider.js',)
