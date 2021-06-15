@@ -74,6 +74,8 @@ class AdvancedSliderWidget(widgets.NumberInput):
         if self.ndigits == 0:
             self.default_med_value = int(self.default_med_value)
         a_["set_value"] = True
+        if value == "":
+            value = None
         a_["slider_start_value"] = value
         if value is None:
             a_["set_value"] = False
