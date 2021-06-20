@@ -82,7 +82,8 @@ class SurveyPage(Page):
         or (if unavailable) show the progress in terms of oTree page numbers (incl. hidden pages)"""
         if not self.show_progress:
             return None
-        if user_progress := self.progress():
+        user_progress = self.progress()
+        if user_progress:
             if type(user_progress) == int:
                 user_progress = [ProgressItem("", user_progress)]
             return user_progress
