@@ -82,6 +82,7 @@ function floatSafeRemainder(val, step) {
 
             this._alignWithStep();
 
+            /* can make slider to wide and unresponsive
             if (this.orientation == 'horizontal') {
                 this.uiSlider
                     .width(this.element.css('width'));
@@ -89,6 +90,7 @@ function floatSafeRemainder(val, step) {
                 this.uiSlider
                     .height(this.element.css('height'));
             }
+            */
             if (this.options.showLabels) {
                 this._drawLabels();
             }
