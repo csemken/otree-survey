@@ -3,14 +3,13 @@
 
 {% block survey_content %}
     {% block intro %}{% endblock %}
-    <div class="container-fluid survey-table grid-striped">
-        <div class="row grid-th d-none d-md-flex">
-            {# TODO make col a variable #}
-            <div class="col"></div>
+    <div class="container-fluid survey-table grid-striped mb-3">
+        <div class="row grid-th d-none d-md-flex text-md-center">
+            <div class="{{ first_col_class|default:'col-md' }}"></div>
             {% for field in form %}
                 {% if forloop.first %}
                     {% for radio in field %}
-                        <div class="col-1">
+                        <div class="{{ main_col_class|default:'col-md-1' }}">
                             <span class="survey-table-choice small">{{ radio.choice_label }}</span>
                         </div>
                     {% endfor %}
@@ -19,11 +18,11 @@
         </div>
         {% for field in form %}
             <div class="row">
-                <div class="col-12 col-md">
+                <div class="col-12 {{ first_col_class|default:'col-md' }}">
                     {{ field.label }}
                 </div>
                 {% for radio in field %}
-                    <div class="col-12 col-sm col-md-1">
+                    <div class="col-12 {{ main_col_class|default:'col-md-1' }}">
                         <label for="{{ radio.id_for_label }}">
                             {{ radio.tag }}
                             <span class="d-md-none survey-table-choice small">{{ radio.choice_label }}</span>
@@ -37,10 +36,6 @@
 
 {% block styles %}
     <style>
-        .survey-table .col:not(:first-child),
-        .survey-table .col-1:not(:first-child) {
-            text-align: center;
-        }
         .survey-table label {
             width: 100%;
             height: 100%;
