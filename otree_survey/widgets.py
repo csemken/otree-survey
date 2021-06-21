@@ -10,6 +10,19 @@ no_range_set_err_msg = "Both max and min parameters should be set to use this sl
 
 
 class AdvancedSliderWidget(widgets.NumberInput):
+    class Media:
+        css = {
+            "all": (
+                "https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css",
+                "jquery-ui/jquery.ui.labeledslider.css",
+                "css/slider.css",
+            )
+        }
+        js = (
+            "https://code.jquery.com/ui/1.10.3/jquery-ui.js",
+            "jquery-ui/jquery.ui.labeledslider.js",
+        )
+
     template_name = "otree_survey/widgets/tickslider.html"
     # TODO: provide a chance for user not to give min and max
     # default_min = 0

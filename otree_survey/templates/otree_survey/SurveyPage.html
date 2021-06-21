@@ -44,7 +44,10 @@
 
 {% block app_styles %}
     <link rel="stylesheet" href="{% static 'otree_survey/otree_survey.css' %}">
+    {{ form.media }}
+{% endblock %}
 
-    {# labeled slider css and js #}
-    {% include 'otree_survey/widgets/tickslider_head.html' %}
+{% block app_scripts %}
+    {# Need to include form media twice, because jQuery is loaded twice (head + end of body) by oTree #}
+    {{ form.media }}
 {% endblock %}
