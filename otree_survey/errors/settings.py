@@ -2,13 +2,13 @@ from os import environ
 
 # Mail settings
 ADMINS = [
-    ("Admin", "admin@otree.survey"),
+    ("Admin", environ.get("EMAIL_ADMIN", "admin@otree.survey")),
 ]
 EMAIL_HOST = environ.get("EMAIL_HOST", None)
 EMAIL_HOST_USER = environ.get("EMAIL_HOST_USER", None)
 EMAIL_HOST_PASSWORD = environ.get("EMAIL_HOST_PASSWORD", None)
-EMAIL_USE_SSL = True
-EMAIL_PORT = 465
+EMAIL_USE_SSL = bool(environ.get("EMAIL_USE_SSL", 1))
+EMAIL_PORT = int(environ.get("EMAIL_PORT", 465))
 EMAIL_SUBJECT_PREFIX = "[oTree] "
 EMAIL_TIMEOUT = 2  # connection attempt is blocking event -> set timeout to 2 seconds
 
