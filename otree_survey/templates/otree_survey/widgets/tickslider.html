@@ -4,7 +4,7 @@
         <div class="sliderinfoblocks {% if widget.attrs.show_block == 'left' %}sliderblockleft{% else %}sliderblockright order-last{% endif %}"
              id="info_{{ widget.attrs.id }}"
         >
-            {# widget.attrs.slider_start_value #}
+            {% if widget.attrs.set_value %}{{ widget.attrs.slider_start_value }}{% endif %}
         </div>
     {% endif %}
     <div class="sliderouter">
