@@ -33,3 +33,8 @@ def progress_bar(context, *args, **kwargs):
 @register.inclusion_tag("otree_survey/tags/FormfieldOnly.html")
 def formfieldonly(field, *args, **kwargs):
     return {"field": field}
+
+
+@register.inclusion_tag("otree_survey/tags/LikertFields.html")
+def likert_fields(form, fields=None, *args, **kwargs):
+    return {"form": form, "fields": fields}
