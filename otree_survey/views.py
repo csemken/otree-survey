@@ -28,6 +28,12 @@ class SurveyPage(Page):
     def get(self):
         # activate user-specific language
         translation.activate(self.participant.vars.get("lang", settings.LANGUAGE_CODE))
+
+        # record visited pages, for use by progress bar
+        if "_survey_pages_visited" not in self.participant.vars:
+            self.participant.vars["_survey_pages_visited"] = set()
+        self.participant.vars["_survey_pages_visited"].add(self._index_in_pages)
+
         return super(SurveyPage, self).get()
 
     def post(self):
@@ -80,17 +86,39 @@ class SurveyPage(Page):
     def _progress(self) -> Union[List[ProgressItem], None]:
         """If `show_progress` attribute is True, use the user-set `progress()` progress bars
         or (if unavailable) show the progress in terms of oTree page numbers (incl. hidden pages)"""
+
         if not self.show_progress:
             return None
+
         user_progress = self.progress()
         if user_progress:
             if type(user_progress) == int:
                 user_progress = [ProgressItem("", user_progress)]
             return user_progress
-        default_progress = int(
-            100 * (self.participant._index_in_pages / self.participant._max_page_index)
-        )
-        return [ProgressItem("", default_progress)]
+
+        if "_survey_pages_total" in self.participant.vars:
+            pages_until_here = [
+                p
+                for p in self.participant.vars["_survey_pages_visited"]
+                if p <= self._index_in_pages
+            ]
+            progress = min(
+                int(
+                    (
+                        len(pages_until_here)
+                        / self.participant.vars["_survey_pages_total"]
+                    )
+                    * 100
+                ),
+                100,
+            )
+        else:
+            progress = int(
+                100
+                * (self.participant._index_in_pages / self.participant._max_page_index)
+            )
+
+        return [ProgressItem("", progress)]
 
     def progress(self) -> Union[List[ProgressItem], int, None]:
         return None
