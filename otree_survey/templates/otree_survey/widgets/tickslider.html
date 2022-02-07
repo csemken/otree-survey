@@ -44,7 +44,7 @@
                     $("#{{widget.attrs.id}} > .ui-slider-handle").hide();
                 {% endif %}
             },
-            change: function(event, ui) {
+            slide: function(event, ui) {
                 // show
                 $("#{{widget.attrs.id}} > .ui-slider-handle").show().focus();
 
