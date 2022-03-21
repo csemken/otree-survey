@@ -38,8 +38,12 @@ def gen_random_data(
     # if number, pick a random number between bounds
     # (use django fields which are the base class for oTree fields)
     # TODO change to get_min?
-    if isinstance(field, django_models.IntegerField):
-        min, max = getattr(field, "min", 0) or 0, getattr(field, "max", 10) or 10
+    print(isinstance(field, django_models.FloatField))
+    if isinstance(field, django_models.IntegerField) or isinstance(
+        field, django_models.FloatField
+    ):
+        min = getattr(field, "min", 0)
+        max = getattr(field, "max", 10)
         return random.randint(min, max)
     # elif string, generate random string, respecting minimum length
     # TODO add min length
@@ -47,7 +51,7 @@ def gen_random_data(
         chars = string.ascii_letters + string.punctuation
         return "".join(random.choice(chars) for _ in range(20))
     # TODO else raise error
-    raise NotImplementedError
+    raise NotImplementedError(f"Cannot generate data for {field_name}")
 
 
 class AutoBot:
@@ -55,7 +59,7 @@ class AutoBot:
 
     Abstract Mixin.  Usage:
     ```
-    PlayerBot(Bot, AutoBot)
+    PlayerBot(AutoBot, Bot)
     ```
     where `Bot` comes from the module __init__.py.
 
@@ -103,15 +107,22 @@ class AutoBot:
             page_sequence = pages_module.page_sequence
 
         for page in page_sequence:
+            page_inst = page()
+            try:
+                # see FormPageOrInGameWaitPage.dispatch()
+                page_inst.set_attributes(participant=self.player.participant)
+            except KeyError:
+                # error in otree.lookup.get_page_lookup
+                # bot should not be on this page
+                continue
+
+            if not page_inst.is_displayed():
+                continue
+
             random_data, fields = {}, None
-            if hasattr(page, "bot_form_fields"):
-                assert page.form_model == "player"
-                fields = page.bot_form_fields(self)
-            elif hasattr(page, "form_fields") and page.form_fields:
-                assert page.form_model == "player"
-                fields = page.form_fields
-            # TODO warning
+            fields = page_inst.get_form_fields()
             if fields:
+                assert page.form_model == "player"
                 random_data = {
                     field: gen_random_data(
                         field,
@@ -123,4 +134,5 @@ class AutoBot:
                 }
                 # remove empty fields (oTree does not allow None, even if blank==True)
                 random_data = {k: v for k, v in random_data.items() if v is not None}
+
             yield Submission(page, random_data)
