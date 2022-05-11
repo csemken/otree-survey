@@ -1,5 +1,6 @@
 from django import template
 from django.utils.translation import ugettext_lazy as _
+from otree.templatetags.otree_forms import FormFieldNode
 
 register = template.Library()
 
@@ -38,3 +39,7 @@ def formfieldonly(field, *args, **kwargs):
 @register.inclusion_tag("otree_survey/tags/LikertFields.html")
 def likert_fields(form, fields=None, *args, **kwargs):
     return {"form": form, "fields": fields}
+
+
+# customize the otree FormField template, to fix layout of MultipleChoiceStringField
+FormFieldNode.template_name = "otree_survey/tags/Formfield.html"
