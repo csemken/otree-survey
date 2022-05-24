@@ -5,9 +5,9 @@ class UserInfoPlayer(BasePlayer):
     class Meta:
         abstract = True
 
-    user_agent = models.StringField()
-    screen_width = models.IntegerField()
-    window_width = models.IntegerField()
+    user_agent = models.StringField(blank=True)
+    screen_width = models.IntegerField(blank=True)
+    window_width = models.IntegerField(blank=True)
 
 
 class UserInfoPage(Page):
